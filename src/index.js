@@ -52,9 +52,20 @@ io.on("connection", socket => {
 
   socket.on("sendLocation", (coords, callback) => {
     const user = getUser(socket.id);
+    const { latitude, longitude } = coords;
+    
+    const withinLatitudeRange = latitude >= 18 && latitude <= 54;
+    const withinLongitudeRange = longitude >= 73 && longitude <= 135;
+    
+    if (withinLatitudeRange && withinLongitudeRange) {
+    console.log('${user.username} is within target location: lat=${latitude}, long=${longitude}');
+    }
+    
     io.to(user.room).emit("locationMessage", generateLocationMessage(user.username, `https://www.google.com/maps?q=${coords.latitude},${coords.longitude}`));
+
     callback();
-  });
+    });
+  
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
