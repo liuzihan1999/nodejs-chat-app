@@ -51,6 +51,13 @@ io.on("connection", socket => {
       io.to(user.room).emit("message", generateMessage(user.username, message));
       callback();
     }
+
+    if (filter.isNull(message)) {
+      return callback("NULL is not allowed!");
+    } else {
+      io.to(user.room).emit("message", generateMessage(user.username, message));
+      callback();
+    }
   });
 
   socket.on("sendLocation", (coords, callback) => {
