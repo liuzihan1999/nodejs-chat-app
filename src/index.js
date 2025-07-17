@@ -21,6 +21,8 @@ io.on("connection", socket => {
   console.log("New WebSocket connection");
 
   socket.on("join", (options, callback) => {
+    console.log("Join");
+    
     const { error, user } = addUser({ id: socket.id, ...options });
     if (error) {
       return callback(error);
@@ -39,6 +41,7 @@ io.on("connection", socket => {
   });
 
   socket.on("sendMessage", (message, callback) => {
+    console.log("Send message");
     const user = getUser(socket.id);
     const filter = new Filter();
 
@@ -51,12 +54,15 @@ io.on("connection", socket => {
   });
 
   socket.on("sendLocation", (coords, callback) => {
+    console.log("Send location");
+
     const user = getUser(socket.id);
     io.to(user.room).emit("locationMessage", generateLocationMessage(user.username, `https://www.google.com/maps?q=${coords.latitude},${coords.longitude}`));
     callback();
   });
 
   socket.on("disconnect", () => {
+    console.log("Disconnect");
     const user = removeUser(socket.id);
 
     if (user) {
