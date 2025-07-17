@@ -70,7 +70,9 @@ io.on("connection", socket => {
     const withinLongitudeRange = longitude >= 73 && longitude <= 135;
     
     if (withinLatitudeRange && withinLongitudeRange) {
-    console.log(`${user.username} is within target location: lat=${latitude}, long=${longitude}`);
+    console.log(`${user.username} is within target location China: lat=${latitude}, long=${longitude}`);
+    } else {
+      console.log(`${user.username} is NOT within target location China: lat=${latitude}, long=${longitude}`);
     }
     
     io.to(user.room).emit("locationMessage", generateLocationMessage(user.username, `https://www.google.com/maps?q=${coords.latitude},${coords.longitude}`));
