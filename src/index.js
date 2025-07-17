@@ -52,12 +52,12 @@ io.on("connection", socket => {
       callback();
     }
 
-    if (filter.isNull(message)) {
-      return callback("NULL is not allowed!");
-    } else {
-      io.to(user.room).emit("message", generateMessage(user.username, message));
-      callback();
-    }
+    // if (filter.isNull(message)) {
+    //   return callback("NULL is not allowed!");
+    // } else {
+    //   io.to(user.room).emit("message", generateMessage(user.username, message));
+    //   callback();
+    // }
   });
 
   socket.on("sendLocation", (coords, callback) => {
@@ -70,7 +70,7 @@ io.on("connection", socket => {
     const withinLongitudeRange = longitude >= 73 && longitude <= 135;
     
     if (withinLatitudeRange && withinLongitudeRange) {
-    console.log('${user.username} is within target location: lat=${latitude}, long=${longitude}');
+    console.log(`${user.username} is within target location: lat=${latitude}, long=${longitude}`);
     }
     
     io.to(user.room).emit("locationMessage", generateLocationMessage(user.username, `https://www.google.com/maps?q=${coords.latitude},${coords.longitude}`));
